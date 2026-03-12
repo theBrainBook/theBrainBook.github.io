@@ -154,7 +154,7 @@
 						</a>
 						<button
 							class="card-link video-btn"
-							data-video-src=""
+							data-video-src="videos/concept.mp4"
 							data-youtube-url=""
 							data-download-url=""
 						>
@@ -528,7 +528,7 @@
 						</a>
 						<button
 							class="card-link video-btn"
-							data-video-src=""
+							data-video-src="videos/demo.mp4"
 							data-youtube-url=""
 							data-download-url=""
 						>
@@ -627,13 +627,12 @@
 		>
 			<div class="video-modal">
 				<div class="video-modal-player">
-					<iframe
-						id="videoModalIframe"
-						src=""
-						frameborder="0"
-						allowfullscreen
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-					></iframe>
+					<video
+						id="videoModalPlayer"
+						controls
+						playsinline
+						preload="metadata"
+					></video>
 				</div>
 				<div class="video-modal-footer">
 					<a
@@ -737,14 +736,15 @@
 
 			// Video Modal
 			const videoModal = document.getElementById("videoModal");
-			const videoModalIframe = document.getElementById("videoModalIframe");
+			const videoModalPlayer = document.getElementById("videoModalPlayer");
 			const videoModalYoutube = document.getElementById("videoModalYoutube");
 			const videoModalDownload = document.getElementById("videoModalDownload");
 			const videoModalClose = document.getElementById("videoModalClose");
 
 			document.querySelectorAll(".video-btn").forEach((btn) => {
 				btn.addEventListener("click", () => {
-					videoModalIframe.src = btn.dataset.videoSrc || "";
+					videoModalPlayer.src = btn.dataset.videoSrc || "";
+					videoModalPlayer.load();
 					videoModalYoutube.href = btn.dataset.youtubeUrl || "#";
 					videoModalDownload.href = btn.dataset.downloadUrl || "#";
 					videoModal.removeAttribute("hidden");
@@ -753,7 +753,9 @@
 
 			function closeVideoModal() {
 				videoModal.setAttribute("hidden", "");
-				videoModalIframe.src = "";
+				videoModalPlayer.pause();
+				videoModalPlayer.removeAttribute("src");
+				videoModalPlayer.load();
 			}
 
 			videoModalClose.addEventListener("click", closeVideoModal);
