@@ -37,7 +37,6 @@
 				</p>
 			</div>
 
-			<!-- TODO: Replace with project screenshots-->
 			<div class="hero-right">
 				<img
 					src="imgs/proto_init.png"
@@ -153,7 +152,12 @@
 							</svg>
 							Slides
 						</a>
-						<a href="#" class="card-link">
+						<button
+							class="card-link video-btn"
+							data-video-src=""
+							data-youtube-url=""
+							data-download-url=""
+						>
 							<svg
 								viewBox="0 0 24 24"
 								fill="none"
@@ -163,7 +167,7 @@
 								<polygon points="5 3 19 12 5 21 5 3" />
 							</svg>
 							Video
-						</a>
+						</button>
 					</div>
 				</div>
 
@@ -522,7 +526,12 @@
 							</svg>
 							Poster
 						</a>
-						<a href="#" class="card-link">
+						<button
+							class="card-link video-btn"
+							data-video-src=""
+							data-youtube-url=""
+							data-download-url=""
+						>
 							<svg
 								viewBox="0 0 24 24"
 								fill="none"
@@ -532,7 +541,7 @@
 								<polygon points="5 3 19 12 5 21 5 3" />
 							</svg>
 							Video
-						</a>
+						</button>
 					</div>
 				</div>
 
@@ -576,7 +585,9 @@
 
 			<div class="team-grid">
 				<div class="team-card" id="member1">
-					<div class="team-photo">&#9786;</div>
+					<div class="team-photo">
+						<img src="imgs/team/Gautam.jpeg" alt="Gautam Khajuria Photo" class="gautam-photo" />
+					</div>
 					<div class="team-name">Gautam Khajuria</div>
 					<div class="team-role">
 						Designer, Editor, &amp; Researcher
@@ -604,6 +615,82 @@
 			<span class="footer-divider">—</span>
 			A Stimulating, Personalized Guide for the Modern Age
 		</footer>
+
+		<!-- Video Modal -->
+		<div
+			class="video-modal-overlay"
+			id="videoModal"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Video Player"
+			hidden
+		>
+			<div class="video-modal">
+				<div class="video-modal-player">
+					<iframe
+						id="videoModalIframe"
+						src=""
+						frameborder="0"
+						allowfullscreen
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					></iframe>
+				</div>
+				<div class="video-modal-footer">
+					<a
+						id="videoModalYoutube"
+						href="#"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="card-link"
+					>
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<rect x="2" y="6" width="20" height="14" rx="3" />
+							<polygon
+								points="10 9 16 13 10 17 10 9"
+								fill="currentColor"
+								stroke="none"
+							/>
+						</svg>
+						YouTube
+					</a>
+					<a
+						id="videoModalDownload"
+						href="#"
+						download
+						class="card-link"
+					>
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+							<polyline points="7 10 12 15 17 10" />
+							<line x1="12" y1="15" x2="12" y2="3" />
+						</svg>
+						Download
+					</a>
+					<button id="videoModalClose" class="card-link primary">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<line x1="18" y1="6" x2="6" y2="18" />
+							<line x1="6" y1="6" x2="18" y2="18" />
+						</svg>
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
 
 		<script>
 			const cards = document.querySelectorAll(".team-card");
@@ -646,6 +733,39 @@
 				c.style.transition =
 					"opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s, transform 0.2s";
 				dObserver.observe(c);
+			});
+
+			// Video Modal
+			const videoModal = document.getElementById("videoModal");
+			const videoModalIframe = document.getElementById("videoModalIframe");
+			const videoModalYoutube = document.getElementById("videoModalYoutube");
+			const videoModalDownload = document.getElementById("videoModalDownload");
+			const videoModalClose = document.getElementById("videoModalClose");
+
+			document.querySelectorAll(".video-btn").forEach((btn) => {
+				btn.addEventListener("click", () => {
+					videoModalIframe.src = btn.dataset.videoSrc || "";
+					videoModalYoutube.href = btn.dataset.youtubeUrl || "#";
+					videoModalDownload.href = btn.dataset.downloadUrl || "#";
+					videoModal.removeAttribute("hidden");
+				});
+			});
+
+			function closeVideoModal() {
+				videoModal.setAttribute("hidden", "");
+				videoModalIframe.src = "";
+			}
+
+			videoModalClose.addEventListener("click", closeVideoModal);
+
+			videoModal.addEventListener("click", (e) => {
+				if (e.target === videoModal) closeVideoModal();
+			});
+
+			document.addEventListener("keydown", (e) => {
+				if (e.key === "Escape" && !videoModal.hasAttribute("hidden")) {
+					closeVideoModal();
+				}
 			});
 		</script>
 	</body>
