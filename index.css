@@ -171,7 +171,7 @@ section {
 }
 
 .book-mockup {
-	width: 640px;
+	width: 360px;
 	background: var(--white);
 	border: 3px solid var(--navy);
 	border-radius: 6px;
@@ -302,7 +302,12 @@ section {
 		transform 0.2s,
 		box-shadow 0.2s;
 	position: relative;
-	overflow: hidden;
+	overflow: visible;
+	z-index: 1;
+}
+
+.deliverable-card:has(.card-dropdown.open) {
+	z-index: 30;
 }
 
 .deliverable-card::before {
@@ -390,6 +395,64 @@ section {
 	width: 13px;
 	height: 13px;
 	flex-shrink: 0;
+}
+
+.card-dropdown {
+	position: relative;
+	display: inline-flex;
+}
+
+.dropdown-trigger {
+	position: relative;
+	padding-right: 26px;
+}
+
+.dropdown-trigger::after {
+	content: "";
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 0;
+	height: 0;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 6px solid currentColor;
+	transition: transform 0.18s ease;
+	pointer-events: none;
+}
+
+.card-dropdown.open .dropdown-trigger::after {
+	transform: translateY(-50%) rotate(90deg);
+}
+
+.dropdown-menu {
+	position: absolute;
+	left: 0;
+	top: calc(100% + 6px);
+	display: none;
+	flex-direction: column;
+	gap: 6px;
+	background: var(--white);
+	border: 1.5px solid var(--dark-blue);
+	border-radius: 10px;
+	padding: 8px;
+	min-width: 180px;
+	box-shadow: 4px 4px 0 var(--navy);
+	z-index: 25;
+}
+
+.card-dropdown.open .dropdown-menu {
+	display: flex;
+}
+
+.dropdown-item {
+	justify-content: flex-start;
+	width: 100%;
+	background: var(--white);
+	color: var(--dark-blue);
+	border-radius: 12px;
+	padding: 5px 10px;
 }
 
 .card-placeholder-note {
